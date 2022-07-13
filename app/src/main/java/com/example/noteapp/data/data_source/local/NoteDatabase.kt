@@ -17,4 +17,8 @@ import com.example.noteapp.data.data_source.local.entity.NoteEntity
 )
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun getNoteDao(): NoteDao
+
+    companion object {
+        const val DATABASE_NAME = "notes_db"
+    }
 }
