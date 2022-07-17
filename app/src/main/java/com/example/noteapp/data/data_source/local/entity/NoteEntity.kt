@@ -24,7 +24,8 @@ data class NoteEntity(
             title = title,
             content = content,
             timestamp = timestamp,
-            color = color
+            color = color,
+            id = id
         )
     }
 }

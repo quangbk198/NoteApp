@@ -20,6 +20,7 @@ import com.example.noteapp.presentation.notes.component.NoteItem
 import com.example.noteapp.presentation.notes.component.OrderSection
 import com.example.noteapp.presentation.notes.event.NotesEvent
 import com.example.noteapp.presentation.notes.viewmodel.NotesViewModels
+import com.example.noteapp.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 /**
@@ -43,7 +44,7 @@ fun NoteScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-
+                    navController.navigate(Screen.AddEditNoteScreen.route)
                 },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
@@ -96,7 +97,7 @@ fun NoteScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.notes) { note ->
                     NoteItem(
@@ -104,7 +105,10 @@ fun NoteScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-
+                                navController.navigate(
+                                    Screen.AddEditNoteScreen.route +
+                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                )
                             },
                         onDeleteClick = {
                             viewModel.onEvent(NotesEvent.DeleteNote(note))
