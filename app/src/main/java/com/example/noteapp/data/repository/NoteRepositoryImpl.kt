@@ -4,6 +4,8 @@ import com.example.noteapp.data.data_source.local.NoteDao
 import com.example.noteapp.data.data_source.local.NoteDatabase
 import com.example.noteapp.domain.model.Note
 import com.example.noteapp.domain.repository.NoteRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Created by quangnh
@@ -15,8 +17,12 @@ class NoteRepositoryImpl(
     private val noteDatabase: NoteDatabase
 ) : NoteRepository{
 
-    override suspend fun getNotes(): List<Note> {
-        return noteDatabase.getNoteDao().getNotes().map { it.toNote() }
+    override fun getNotes(): Flow<List<Note>> {
+        return noteDatabase.getNoteDao().getNotes().map { listNoteEntity ->
+            listNoteEntity.map { noteEntity ->
+                noteEntity.toNote()
+            }
+        }
     }
 
     override suspend fun getNoteById(id: Int): Note? {

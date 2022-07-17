@@ -6,6 +6,7 @@ import com.example.noteapp.domain.util.NoteOrder
 import com.example.noteapp.domain.util.OrderType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 /**
  * Created by quangnh
@@ -18,51 +19,49 @@ class GetNotes(
 ) {
     operator fun invoke(
         noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending)
-    ): Flow<List<Note>> = flow {
-        val listNote = noteRepository.getNotes()
-
-        when (noteOrder.orderType) {
-            is OrderType.Ascending -> {
-                when (noteOrder) {
-                    is NoteOrder.Title -> {
-                        listNote.sortedBy {
-                            it.title.lowercase()
+    ): Flow<List<Note>> {
+        return noteRepository.getNotes().map { listNote ->
+            when (noteOrder.orderType) {
+                is OrderType.Ascending -> {
+                    when (noteOrder) {
+                        is NoteOrder.Title -> {
+                            listNote.sortedBy {
+                                it.title.lowercase()
+                            }
                         }
-                    }
-                    is NoteOrder.Date -> {
-                        listNote.sortedBy {
-                            it.timestamp
+                        is NoteOrder.Date -> {
+                            listNote.sortedBy {
+                                it.timestamp
+                            }
                         }
-                    }
-                    is NoteOrder.Color -> {
-                        listNote.sortedBy {
-                            it.color
+                        is NoteOrder.Color -> {
+                            listNote.sortedBy {
+                                it.color
+                            }
                         }
                     }
                 }
-            }
 
-            is OrderType.Descending -> {
-                when (noteOrder) {
-                    is NoteOrder.Title -> {
-                        listNote.sortedByDescending {
-                            it.title.lowercase()
+                is OrderType.Descending -> {
+                    when (noteOrder) {
+                        is NoteOrder.Title -> {
+                            listNote.sortedByDescending {
+                                it.title.lowercase()
+                            }
                         }
-                    }
-                    is NoteOrder.Date -> {
-                        listNote.sortedByDescending {
-                            it.timestamp
+                        is NoteOrder.Date -> {
+                            listNote.sortedByDescending {
+                                it.timestamp
+                            }
                         }
-                    }
-                    is NoteOrder.Color -> {
-                        listNote.sortedByDescending {
-                            it.color
+                        is NoteOrder.Color -> {
+                            listNote.sortedByDescending {
+                                it.color
+                            }
                         }
                     }
                 }
             }
         }
-
-        emit(listNote)
     }
 }

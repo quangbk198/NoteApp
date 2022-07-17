@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Query("SELECT * FROM NoteEntity")
-    suspend fun getNotes(): List<NoteEntity>
+    fun getNotes(): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM NoteEntity WHERE id = :id")
     suspend fun getNoteById(id: Int): NoteEntity?
