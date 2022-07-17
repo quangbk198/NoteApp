@@ -24,41 +24,17 @@ class GetNotes(
             when (noteOrder.orderType) {
                 is OrderType.Ascending -> {
                     when (noteOrder) {
-                        is NoteOrder.Title -> {
-                            listNote.sortedBy {
-                                it.title.lowercase()
-                            }
-                        }
-                        is NoteOrder.Date -> {
-                            listNote.sortedBy {
-                                it.timestamp
-                            }
-                        }
-                        is NoteOrder.Color -> {
-                            listNote.sortedBy {
-                                it.color
-                            }
-                        }
+                        is NoteOrder.Title -> listNote.sortedBy { it.title.lowercase() }
+                        is NoteOrder.Date -> listNote.sortedBy { it.timestamp }
+                        is NoteOrder.Color -> listNote.sortedBy { it.color }
                     }
                 }
 
                 is OrderType.Descending -> {
                     when (noteOrder) {
-                        is NoteOrder.Title -> {
-                            listNote.sortedByDescending {
-                                it.title.lowercase()
-                            }
-                        }
-                        is NoteOrder.Date -> {
-                            listNote.sortedByDescending {
-                                it.timestamp
-                            }
-                        }
-                        is NoteOrder.Color -> {
-                            listNote.sortedByDescending {
-                                it.color
-                            }
-                        }
+                        is NoteOrder.Title -> listNote.sortedByDescending { it.title.lowercase() }
+                        is NoteOrder.Date -> listNote.sortedByDescending { it.timestamp }
+                        is NoteOrder.Color -> listNote.sortedByDescending { it.color }
                     }
                 }
             }
